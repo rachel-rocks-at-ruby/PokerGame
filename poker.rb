@@ -42,12 +42,12 @@ def poker
 	user1count = 0 # number of games user1 has won
 	user2count = 0 # number of games user2 has won
 	
-	File.open('/Users/RachelBird/Desktop/poker.txt').each do |line|
+	File.open('poker.txt').each do |line|
 	
 		game = line.strip.split(" ")
 		
-		userhand1 = @game.slice(0,5)
-	  	userhand2 = @game.slice(5,10)
+		userhand1 = game.slice(0,5)
+	  	userhand2 = game.slice(5,10)
 	  	
 	  	game.each do |card|
 	  		faces = [2, 3, 4, 5, 6, 7, 8, 9, "T", "J", "Q", "K", "A"].reverse
@@ -80,62 +80,60 @@ def poker
 			# Royal flush (assuming only one user will get one at a time)
 			if faces1.include?("A") && faces1.include?("K") && faces1.include?("Q") && faces1.include?("J") && faces1.include?("T") && suits1.uniq.length == 0
 				user1count += 1
-				break
 			elsif faces2.include?("A") && faces2.include?("K") && faces2.include?("Q") && faces2.include?("J") && faces2.include?("T") && suits2.uniq.length == 0
 				user2count += 1
-				break
+
+			# Straight flush
+			# See explanation on Straight below
+
 			# Four of a kind
 			elsif matches1 == 4 && matches2 <= 4
 				user1count += 1
-				break
 			elsif matches2 == 4 && matches1 <= 4
 				user2count += 1
-				break
+
 			# Full house
 			elsif matches1 == 3 && faces1.uniq.length == 0
 				user1count += 1
-				break
 			elsif matches2 == 3 && faces2.uniq.length == 0
 				user2count += 1
-				break
+
 			# Flush 
 			elsif suits1.uniq.length == 0 && !(suits2.uniq.length == 0)
 				user1count += 1
-				break
 			elsif suits2.uniq.length == 0 && (suits1.uniq.length == 0)
 				user2count += 1
-				break
+			
+			# Straight 
+			# here's the stackoverflow discussion this generated: 
+			#http://stackoverflow.com/questions/29598289/how-do-you-check-an-array-for-a-range-in-ruby
+
 			# Three of a kind
 			elsif matches1 == 3
 				user1count += 1
-				break
 			elsif matches2 == 3
 				user2count += 1
-				break
+
 			# Two pairs
 			elsif matches1 == 2 && faces2.uniq.length == 1
 				user1count += 1
-				break
 			elsif matches2 == 2 && faces2.uniq.length == 1
 				user2count += 1
-				break
+
 			# One pair
 			elsif matches[1] == 2 && !(matches[2] == 2)
 				user1count += 1
-	  		break
 	  		elsif matches[2] == 2 && !(matches[1] == 2)
 		  		user2count += 1
-		  		break
+
 	  		else 
 	  			# compare highest cards in each hand
 	  			# tally winner
 		  		faces.each do |f|
 			  		if faces1.uniq.include?(f) && !faces2.uniq.include?(f)  
 			  			user1count += 1
-			  			break
 			  		elsif faces2.uniq.include?(f) && !faces1.uniq.include?(f)
 			  			user2count += 1
-			  			break
 			  		end
 	  			end
 	    	end
