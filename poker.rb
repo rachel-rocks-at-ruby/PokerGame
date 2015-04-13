@@ -101,7 +101,7 @@ def poker
 			# Flush 
 			elsif suits1.uniq.length == 0 && !(suits2.uniq.length == 0)
 				user1count += 1
-			elsif suits2.uniq.length == 0 && (suits1.uniq.length == 0)
+			elsif suits2.uniq.length == 0 && !(suits1.uniq.length == 0)
 				user2count += 1
 			
 			# Straight 
